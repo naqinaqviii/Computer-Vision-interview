@@ -2,17 +2,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Interview Result</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Report - Interview Insight</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+        .section {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        h1, h2 { color: #2c3e50; }
+        .overall-score { font-size: 64px; font-weight: bold; color: #667eea; }
+        .score-summary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; border-radius: 12px; text-align: center; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 30px 0; }
+        .metric-card { background: #f9f9f9; padding: 20px; border-radius: 8px; text-align: center; border-left: 4px solid #667eea; }
+        .metric-value { font-size: 36px; font-weight: bold; color: #667eea; }
+        .strength { background: #d5f4e6; padding: 10px; margin: 8px 0; border-radius: 4px; color: #0b5345; border-left: 4px solid #27ae60; }
+        .weakness { background: #fadbd8; padding: 10px; margin: 8px 0; border-radius: 4px; color: #78281f; border-left: 4px solid #e74c3c; }
+        .button-group { text-align: center; margin-top: 30px; }
+        button { padding: 12px 30px; margin: 10px; font-size: 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn-primary { background: #667eea; color: white; }
+        .btn-secondary { background: #95a5a6; color: white; }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h2>Interview Summary</h2>
-        <p><strong>Facial Expression Analysis:</strong> {{ facial_expression_score }}%</p>
-        <p><strong>Grammar Analysis:</strong> {{ grammar_score }}%</p>
-        <p><strong>Speech Feedback:</strong> {{ speech_feedback_score }}%</p>
-        <p><strong>Keyword Analysis:</strong> {{ keyword_score }}%</p>
-        <p><strong>Overall Score:</strong> {{ overall_score }}%</p>
+        <div class="section">
+            <h1>?? Your IELTS Speaking Interview Report</h1>
+            {% if report and report.results %}
+            
+            <div class="score-summary">
+                <div style="font-size: 20px;">Your IELTS Speaking Score</div>
+                <div class="overall-score">{{ report.averages.overall }}</div>
+                <div style="font-size: 18px; margin-top: 15px;">IELTS Band: <strong>{{ report.ielts_band.number }} - {{ report.ielts_band.label }}</strong></div>
+                <div style="font-size: 16px; margin-top: 10px;">{{ report.ielts_band.recommendation }}</div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">{{ report.averages.grammar }}</div>
+                    <div style="color: #7f8c8d; font-size: 14px; text-transform: uppercase;">Grammar</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">{{ report.averages.fluency }}</div>
+                    <div style="color: #7f8c8d; font-size: 14px; text-transform: uppercase;">Fluency</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">{{ report.averages.vocabulary }}</div>
+                    <div style="color: #7f8c8d; font-size: 14px; text-transform: uppercase;">Vocabulary</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">{{ report.averages.pronunciation }}</div>
+                    <div style="color: #7f8c8d; font-size: 14px; text-transform: uppercase;">Pronunciation</div>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 30px;">? Strengths & ?? Areas for Improvement</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h3 style="color: #27ae60; margin-bottom: 15px;">Your Strengths:</h3>
+                    {% for strength in report.strengths %}
+                    <div class="strength">{{ strength }}</div>
+                    {% endfor %}
+                </div>
+                <div>
+                    <h3 style="color: #e74c3c; margin-bottom: 15px;">Areas to Improve:</h3>
+                    {% for weakness in report.weaknesses %}
+                    <div class="weakness">{{ weakness }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <h2 style="margin-top: 30px;">?? Improvement Tips</h2>
+            <ul style="list-style: none; padding: 0;">
+                {% for tip in report.improvement_tips %}
+                <li style="padding: 10px 0; color: #2c3e50; border-bottom: 1px solid #ecf0f1;">? {{ tip }}</li>
+                {% endfor %}
+            </ul>
+
+            <div class="button-group">
+                <button class="btn-primary" onclick="location.href='/'">Start New Interview</button>
+                <button class="btn-secondary" onclick="window.print()">Print Report</button>
+            </div>
+
+            {% else %}
+            <p style="text-align: center; color: #95a5a6; font-size: 18px;">No interview results available</p>
+            <div class="button-group">
+                <button class="btn-primary" onclick="location.href='/question'" style="padding: 15px 40px; font-size: 18px;">Start Interview Practice</button>
+            </div>
+            {% endif %}
+        </div>
     </div>
 </body>
 </html>

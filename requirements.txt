@@ -1,7 +1,9 @@
 Flask
 opencv-python
 speechrecognition
-deepface
 mediapipe
-language-tool-python
 pyttsx3
+torch
+transformers
+pydub
+numpy
