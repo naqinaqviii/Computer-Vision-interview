@@ -1,6 +1,5 @@
 **Interview Insight** is an AI-powered platform designed to revolutionize interview preparation. By leveraging cutting-edge technologies like speech-to-text, facial emotion recognition, and NLP-based response analysis, it provides real-time feedback to help candidates refine their communication and perform their best.
 
-![image](https://github.com/user-attachments/assets/33be9262-bdc5-4f5d-a87a-e5e335172970)
 
 ## Features
 
