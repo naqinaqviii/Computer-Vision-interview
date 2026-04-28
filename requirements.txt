@@ -7,3 +7,7 @@ torch
 transformers
 pydub
 numpy
+language-tool-python
+spacy
+openai
+python-dotenv
